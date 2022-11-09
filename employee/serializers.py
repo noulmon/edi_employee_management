@@ -10,8 +10,6 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    # team_details = TeamSerializer()
-
     class Meta:
         model = Employee
         exclude = ['date_added', 'date_modified']
