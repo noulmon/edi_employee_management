@@ -16,6 +16,9 @@ class Team(DatedModel, StatusModel):
 
 @receiver(post_save, sender=Team)
 def generate_team_code(sender, instance, created, **kwargs):
+    """
+    post_save signal that generates team code when a Team instance is created
+    """
     if created:
         instance.code = f'EDI-TM-{instance.id}'
 
@@ -33,6 +36,9 @@ class Employee(DatedModel, StatusModel):
 
 @receiver(post_save, sender=Employee)
 def generate_employee_id(sender, instance, created, **kwargs):
+    """
+    post_save signal that generates employee id when an Employee instance is created
+    """
     if created:
         instance.employee_id = f'EDI-EMP-{instance.id}'
 
