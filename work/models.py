@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator
 from django.db import models
+
 from base.models import DatedModel, StatusModel
 from employee.models import Employee
-from django.core.validators import MaxValueValidator
 
 
 # Work Arrangement Model
@@ -14,6 +16,12 @@ class WorkArrangement(DatedModel, StatusModel):
     )
     work = models.CharField(max_length=25, unique=True, blank=False)
     work_type = models.CharField(max_length=25, blank=False, null=False, choices=WORK_TYPE, default=FULL_TIME)
+
+    def save(self, *args, **kwargs):
+        work_types = [self.PART_TIME, self.FULL_TIME]
+        if self.work_type not in work_types:
+            raise ValidationError(f'Error: work_type should be an element of {work_types}')
+        super(WorkArrangement, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.work} - {self.work_type}'
