@@ -14,8 +14,11 @@ class WorkArrangement(DatedModel, StatusModel):
         (PART_TIME, 'PART TIME'),
         (FULL_TIME, 'FULL TIME'),
     )
-    work = models.CharField(max_length=25, unique=True, blank=False)
+    work = models.CharField(max_length=25, blank=False)
     work_type = models.CharField(max_length=25, blank=False, null=False, choices=WORK_TYPE, default=FULL_TIME)
+
+    class Meta:
+        unique_together = ('work', 'work_type',)
 
     def save(self, *args, **kwargs):
         work_types = [self.PART_TIME, self.FULL_TIME]
