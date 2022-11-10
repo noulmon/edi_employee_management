@@ -14,7 +14,7 @@ class TeamLeaderViewTests(APITestCase):
         self.list_create_url = reverse('teamleader-list-create')
         self.employee = Employee.objects.create(employee_name="Hugo", hourly_rate=Decimal(200))
         self.team = Team.objects.create(name="Engineering")
-        self.team = TeamLeader.objects.create(employee=self.employee, team=self.team)
+        self.team_leader = TeamLeader.objects.create(employee=self.employee, team=self.team)
 
     def test_get_team_leader_list(self):
         """Testing team leader list API"""
@@ -65,3 +65,21 @@ class TeamLeaderViewTests(APITestCase):
         data = json.dumps(data)
         response = self.client.post(self.list_create_url, content_type='application/json', data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_update_team_leader_name(self):
+        data = {
+            'name': 'Data Engineering'
+        }
+        data = json.dumps(data)
+        url = reverse('teamleader-retrieve-update-delete', kwargs={'pk': self.team_leader.id})
+        response = self.client.patch(url, content_type='application/json', data=data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_employee(self):
+        employee = Employee.objects.create(employee_name="Sam", hourly_rate=Decimal(200))
+        team = Team.objects.create(name="HR")
+        team_leader = TeamLeader.objects.create(employee=employee, team=team)
+        url = reverse('team-retrieve-update-delete', kwargs={'pk': team_leader.id})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(TeamLeader.objects.filter(employee=employee, team=team).exists())
