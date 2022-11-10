@@ -89,19 +89,23 @@ class TeamLeaderTest(TestCase):
     """Testing TeamLeader model"""
 
     def setUp(self):
+        """Setting initial data for comparison"""
         self.team = Team.objects.create(name="ENGINEERING")
         self.employee = Employee.objects.create(employee_name="HUGO", hourly_rate=Decimal(200))
         self.team_leader = TeamLeader.objects.create(team=self.team, employee=self.employee)
 
     def test_team_lead_instance_creation(self):
+        """Testing is the initial creation is successful"""
         self.assertTrue(isinstance(self.team_leader, TeamLeader))
 
     def test_one_to_one_field_team(self):
+        """Testing if the duplicate team can be inserted into the table"""
         employee = Employee.objects.create(employee_name="SAMUEL", hourly_rate=Decimal(200))
         with self.assertRaises(IntegrityError):
             TeamLeader.objects.create(team=self.team, employee=employee)
 
     def test_one_to_one_field_employee(self):
+        """Testing if the duplicate employee can be inserted into the table"""
         team = Team.objects.create(name="QA")
         with self.assertRaises(IntegrityError):
             TeamLeader.objects.create(team=team, employee=self.employee)
