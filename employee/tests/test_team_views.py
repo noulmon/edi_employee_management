@@ -45,3 +45,19 @@ class TeamViewTests(APITestCase):
         response = self.client.post(self.list_create_url, content_type='application/json', data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['code'], 'EDI-TM-2')
+
+    def test_update_team_name(self):
+        data = {
+            'name': 'Data Engineering'
+        }
+        data = json.dumps(data)
+        url = reverse('team-retrieve-update-delete', kwargs={'pk': self.team.id})
+        response = self.client.patch(url, content_type='application/json', data=data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_employee(self):
+        team = Team.objects.create(name='HR')
+        url = reverse('team-retrieve-update-delete', kwargs={'pk': team.id})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Team.objects.filter(name='HR').exists())
