@@ -103,3 +103,10 @@ class EmployeeViewTests(APITestCase):
         url = reverse('employee-retrieve-update-delete', kwargs={'pk': self.employee.id})
         response = self.client.patch(url, content_type='application/json', data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_delete_employee(self):
+        employee = Employee.objects.create(employee_name="Wane", hourly_rate=Decimal(300))
+        url = reverse('employee-retrieve-update-delete', kwargs={'pk': employee.id})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Employee.objects.filter(employee_name='Wane').exists())
