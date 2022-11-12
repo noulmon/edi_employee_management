@@ -42,14 +42,5 @@ class EmployeeWorkArrangement(DatedModel, StatusModel):
         """
         return self.employee.employeeworkarrangement_set.all().aggregate(Sum("percentage"))['percentage__sum']
 
-    def save(self, *args, **kwargs):
-        if self.percentage > 100:
-            raise ValidationError('Error: Percentage should not be greater than 100')
-
-        if EmployeeWorkArrangement.objects.filter(employee=self.employee).exists():
-            if self.get_total_employee_work_percentage() + self.percentage > 100:
-                raise ValidationError('Error: No employee can have total work percentage greater than 100')
-        super(EmployeeWorkArrangement, self).save(*args, **kwargs)
-
     def __str__(self):
         return f'{self.employee.employee_id} - {self.work_arrangement.work} ({self.percentage})'
