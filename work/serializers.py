@@ -33,7 +33,7 @@ class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
         employee = instance.employee
         # if the update data includes the employee
         payload_employee = validated_data.get('employee')
-        if validated_data.get('percentage'):
+        if payload_employee:
             employee = payload_employee
         if percentage:
             if not validate_total_work_percentage(employee, percentage):
