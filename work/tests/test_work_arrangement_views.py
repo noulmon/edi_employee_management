@@ -1,4 +1,3 @@
-# import json
 import json
 
 from django.urls import reverse
