@@ -47,6 +47,7 @@ class TeamViewTests(APITestCase):
         self.assertEqual(response.data['code'], 'EDI-TM-2')
 
     def test_update_team_name(self):
+        """Test update team name"""
         data = {
             'name': 'Data Engineering'
         }
@@ -55,7 +56,8 @@ class TeamViewTests(APITestCase):
         response = self.client.patch(url, content_type='application/json', data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_delete_employee(self):
+    def test_delete_team(self):
+        """Test delete team"""
         team = Team.objects.create(name='HR')
         url = reverse('team-retrieve-update-delete', kwargs={'pk': team.id})
         response = self.client.delete(url)
