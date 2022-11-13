@@ -110,3 +110,12 @@ class EmployeeViewTests(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Employee.objects.filter(employee_name='Wane').exists())
+
+    def test_employee_monthly_payment_api(self):
+        """
+        Testing update employee team
+        """
+        url = reverse('employee-monthly-payment')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(isinstance(response.data, list))
