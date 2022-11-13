@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 from django.db.models import Sum
 from django.db.models.signals import post_save
@@ -32,11 +34,29 @@ class Employee(DatedModel, StatusModel):
     hourly_rate = models.DecimalField(blank=False, null=False, max_digits=30, decimal_places=2)
 
     def get_total_employee_work_percentage(self):
-        total_work_arrangement_percentage = 0
+        total_work_arrangement_percentage = Decimal(0)
         work_arrangements = self.employeeworkarrangement_set.all()
         if work_arrangements:
             total_work_arrangement_percentage = work_arrangements.aggregate(Sum("percentage"))['percentage__sum']
         return total_work_arrangement_percentage
+
+    def is_team_leader(self):
+        try:
+            team_leader = self.teamleader
+            if team_leader:
+                return True
+        except Exception as e:
+            return False
+
+    def get_monthly_pay(self):
+        monthly_pay = Decimal(0)
+        work_percentage = self.get_total_employee_work_percentage()
+        if not work_percentage:
+            work_percentage = Decimal(0)
+        monthly_pay = work_percentage / Decimal(40) * Decimal(4) * self.hourly_rate
+        if self.is_team_leader():
+            monthly_pay += (monthly_pay / 10)
+        return monthly_pay
 
     def __str__(self):
         return f'{self.employee_name} {self.employee_id}'

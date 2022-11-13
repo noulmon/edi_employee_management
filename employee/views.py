@@ -1,7 +1,10 @@
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from employee.models import Employee, Team, TeamLeader
-from employee.serializers import EmployeeSerializer, EmployeeReadSerializer, TeamSerializer, TeamLeaderSerializer
+from employee.serializers import EmployeeSerializer, EmployeeReadSerializer, TeamSerializer, TeamLeaderSerializer, \
+    EmployeeMonthlyPaymentSerializer
 
 
 class EmployeeListCreateView(generics.ListCreateAPIView):
@@ -42,3 +45,10 @@ class TeamLeaderListCreateView(generics.ListCreateAPIView):
 class TeamLeaderRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TeamLeader.objects.all()
     serializer_class = TeamLeaderSerializer
+
+
+class EmployeeMonthlyPaymentList(APIView):
+    def get(self, request):
+        employees = Employee.objects.all()
+        serializer = EmployeeMonthlyPaymentSerializer(employees, many=True)
+        return Response(serializer.data)

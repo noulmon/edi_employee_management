@@ -29,3 +29,22 @@ class TeamLeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamLeader
         exclude = ['date_added', 'date_modified']
+
+
+class EmployeeMonthlyPaymentSerializer(serializers.ModelSerializer):
+    works = serializers.SerializerMethodField()
+    monthly_pay = serializers.SerializerMethodField(source='get_monthly_pay')
+    is_team_leader_data = serializers.SerializerMethodField()
+
+    class Meta(EmployeeSerializer.Meta):
+        pass
+
+    def get_works(self, instance):
+        return instance.employeeworkarrangement_set.all().values('work_arrangement__work',
+                                                                 'work_arrangement__work_type', 'percentage')
+
+    def get_monthly_pay(self, instance):
+        return instance.get_monthly_pay()
+
+    def get_is_team_leader_data(self, instance):
+        return instance.is_team_leader()
