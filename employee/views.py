@@ -49,6 +49,7 @@ class TeamLeaderRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
 class EmployeeMonthlyPaymentList(APIView):
     def get(self, request):
+        """Returns all the employee list with total amount payable at the end of a month"""
         employees = Employee.objects.all()
         serializer = EmployeeMonthlyPaymentSerializer(employees, many=True)
         return Response(serializer.data)

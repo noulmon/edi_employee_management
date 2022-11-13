@@ -40,11 +40,14 @@ class EmployeeMonthlyPaymentSerializer(serializers.ModelSerializer):
         pass
 
     def get_works(self, instance):
+        """return the work arrangement details of an employee"""
         return instance.employeeworkarrangement_set.all().values('work_arrangement__work',
                                                                  'work_arrangement__work_type', 'percentage')
 
     def get_monthly_pay(self, instance):
+        """Return total amount payable to an employee in a month"""
         return instance.get_monthly_pay()
 
     def get_is_team_leader_data(self, instance):
+        """Returns whether an employee is team leader or not"""
         return instance.is_team_leader()

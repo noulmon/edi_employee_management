@@ -34,6 +34,9 @@ class Employee(DatedModel, StatusModel):
     hourly_rate = models.DecimalField(blank=False, null=False, max_digits=30, decimal_places=2)
 
     def get_total_employee_work_percentage(self):
+        """
+        total percentage of work an employee is doing
+        """
         total_work_arrangement_percentage = Decimal(0)
         work_arrangements = self.employeeworkarrangement_set.all()
         if work_arrangements:
@@ -41,6 +44,9 @@ class Employee(DatedModel, StatusModel):
         return total_work_arrangement_percentage
 
     def is_team_leader(self):
+        """
+        Returns True if an employee is team leader, else returns false
+        """
         try:
             team_leader = self.teamleader
             if team_leader:
@@ -49,6 +55,9 @@ class Employee(DatedModel, StatusModel):
             return False
 
     def get_monthly_pay(self):
+        """
+        Returns total amount to be paid to the employee
+        """
         monthly_pay = Decimal(0)
         work_percentage = self.get_total_employee_work_percentage()
         if not work_percentage:
