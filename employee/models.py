@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from base.models import DatedModel, StatusModel
+from employee.utils import MAX_WEEKLY_WORKING_HOURS, WEEKS_IN_A_MONTH, EMPLOYEE_CODE_CONST, TEAM_CODE_CONST
 
 
 # team model
@@ -23,7 +24,7 @@ def generate_team_code(sender, instance, created, **kwargs):
     post_save signal that generates team code when a Team instance is created
     """
     if created:
-        instance.code = f'EDI-TM-{instance.id}'
+        instance.code = f'{TEAM_CODE_CONST}{instance.id}'
 
 
 # employee model
@@ -62,7 +63,7 @@ class Employee(DatedModel, StatusModel):
         work_percentage = self.get_total_employee_work_percentage()
         if not work_percentage:
             work_percentage = Decimal(0)
-        monthly_pay = (work_percentage/100) * Decimal(40) * Decimal(4) * self.hourly_rate
+        monthly_pay = (work_percentage / 100) * MAX_WEEKLY_WORKING_HOURS * WEEKS_IN_A_MONTH * self.hourly_rate
         if self.is_team_leader():
             monthly_pay += (monthly_pay / 10)
         return monthly_pay
@@ -77,7 +78,7 @@ def generate_employee_id(sender, instance, created, **kwargs):
     post_save signal that generates employee id when an Employee instance is created
     """
     if created:
-        instance.employee_id = f'EDI-EMP-{instance.id}'
+        instance.employee_id = f'{EMPLOYEE_CODE_CONST}{instance.id}'
 
 
 # team leader model
