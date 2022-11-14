@@ -62,7 +62,7 @@ class Employee(DatedModel, StatusModel):
         work_percentage = self.get_total_employee_work_percentage()
         if not work_percentage:
             work_percentage = Decimal(0)
-        monthly_pay = work_percentage / Decimal(40) * Decimal(4) * self.hourly_rate
+        monthly_pay = (work_percentage/100) * Decimal(40) * Decimal(4) * self.hourly_rate
         if self.is_team_leader():
             monthly_pay += (monthly_pay / 10)
         return monthly_pay
