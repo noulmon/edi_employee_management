@@ -67,6 +67,7 @@ class TeamLeaderViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_update_team_leader_name(self):
+        """Testing team leader update view"""
         data = {
             'name': 'Data Engineering'
         }
@@ -75,7 +76,8 @@ class TeamLeaderViewTests(APITestCase):
         response = self.client.patch(url, content_type='application/json', data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_delete_employee(self):
+    def test_delete_team_leader(self):
+        """Test delete leader API"""
         employee = Employee.objects.create(employee_name="Sam", hourly_rate=Decimal(200))
         team = Team.objects.create(name="HR")
         team_leader = TeamLeader.objects.create(employee=employee, team=team)
