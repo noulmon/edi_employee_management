@@ -25,6 +25,7 @@ def generate_team_code(sender, instance, created, **kwargs):
     """
     if created:
         instance.code = f'{TEAM_CODE_CONST}{instance.id}'
+        instance.save()
 
 
 # employee model
@@ -79,6 +80,7 @@ def generate_employee_id(sender, instance, created, **kwargs):
     """
     if created:
         instance.employee_id = f'{EMPLOYEE_CODE_CONST}{instance.id}'
+        instance.save()
 
 
 # team leader model
