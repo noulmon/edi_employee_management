@@ -35,6 +35,8 @@ signals. `EDI-EMP-ID`(eg: EDI-EMP-21) and `EDI-TM-ID`(eg: EDI-EMP-13) for Employ
 
 ## API Endpoints:
 
+
+
 ### Employee
 
 - `/employee/api/employees/` `POST`: creates a new employee.
@@ -80,3 +82,28 @@ signals. `EDI-EMP-ID`(eg: EDI-EMP-21) and `EDI-TM-ID`(eg: EDI-EMP-13) for Employ
 ### Employee Monthly Payment:
 
 `/employee/api/payment_list/` `GET`: retrieves the list of employees with their respective pay for the month
+
+### API Documentation(Swagger):
+`/api/docs/` `GET`: Redirects to Swagger GUI for API documentation.
+
+
+## To Run the Project:
+
+1. Clone the project from git repository.
+2. Create a python environment and activate it.
+3. Got project directory. 
+4. Install the required packages: `pip install requirements.txt`.
+5. Run the project: `python manage.py runserver`.
+
+## To Run Unit Tests:
+`python manage.py test`: run the unit tests in the command line.
+
+## To Generate the Test Coverage Report:
+1. Run Coverage: `coverage run manage.py test`.
+2. Generate a coverage report: `coverage report -m` (generates a coverage report in the commandline).
+3. Generate an HTML coverage report: coverage html: `coverage html` (report can be found in _htmlcov/index.html_ in project root directory).
+
+## Possible Future Enhancements in the Project:
+- Add user authentication for the APIs.
+- Restrict 'employee monthly payment list' to user with accounts role (and admins) only.
+- Containerize(using Docker) the project to avoid the infrastructure dependency.
