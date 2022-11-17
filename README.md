@@ -33,8 +33,21 @@ signals. `EDI-EMP-ID`(eg: EDI-EMP-21) and `EDI-TM-ID`(eg: EDI-EMP-13) for Employ
 - [Work Arrangement](https://github.com/noulmon/edi_employee_management/blob/master/work/models.py#L10-L30)
 - [Employee Work Arrangement](https://github.com/noulmon/edi_employee_management/blob/master/work/models.py#L34-L55)
 
+
+## To Run the Project:
+
+1. Clone the project from git repository.
+2. Create a python environment and activate it.
+3. Got project directory. 
+4. Install the required packages: `pip3 install -r requirements.txt`.
+5. Run migrations: `python3 manage.py migrate`.
+6. Run the project: `python3 manage.py runserver`.
+
+
 ## API Endpoints:
 
+
+#### Postman documentation with examples: [https://documenter.getpostman.com/view/19521178/2s8YmNS3qJ](https://documenter.getpostman.com/view/19521178/2s8YmNS3qJ)
 
 
 ### Employee
@@ -86,14 +99,6 @@ signals. `EDI-EMP-ID`(eg: EDI-EMP-21) and `EDI-TM-ID`(eg: EDI-EMP-13) for Employ
 ### API Documentation(Swagger):
 `/api/docs/` `GET`: Redirects to Swagger GUI for API documentation.
 
-
-## To Run the Project:
-
-1. Clone the project from git repository.
-2. Create a python environment and activate it.
-3. Got project directory. 
-4. Install the required packages: `pip3 install -r requirements.txt`.
-5. Run the project: `python3 manage.py runserver`.
 
 ## To Run Unit Tests:
 `python3 manage.py test`: run the unit tests in the command line.
