@@ -33,7 +33,7 @@ class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
         if not validate_total_work_percentage(employee, percentage):
             # validates if the total employee work percentage is less than 100
             raise serializers.ValidationError('Error: No employee can have total work percentage greater than 100')
-        return self.Meta.model.objects.create(**validated_data)
+        return self.Meta.model.active_objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         """updates an existing EmployeeWorkArrangement instance"""

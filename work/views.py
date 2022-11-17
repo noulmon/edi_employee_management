@@ -5,20 +5,20 @@ from work.serializers import WorkArrangementSerializer, EmployeeWorkArrangementS
 
 
 class WorkArrangementListCreateView(generics.ListCreateAPIView):
-    queryset = WorkArrangement.objects.all()
+    queryset = WorkArrangement.active_objects.all()
     serializer_class = WorkArrangementSerializer
 
 
 class WorkArrangementRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = WorkArrangement.objects.all()
+    queryset = WorkArrangement.active_objects.all()
     serializer_class = WorkArrangementSerializer
 
 
 class EmployeeWorkArrangementListCreateView(generics.ListCreateAPIView):
-    queryset = EmployeeWorkArrangement.objects.all()
+    queryset = EmployeeWorkArrangement.active_objects.all()
     serializer_class = EmployeeWorkArrangementSerializer
 
 
 class EmployeeWorkArrangementRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = EmployeeWorkArrangement.objects.all()
+    queryset = EmployeeWorkArrangement.active_objects.all()
     serializer_class = EmployeeWorkArrangementSerializer

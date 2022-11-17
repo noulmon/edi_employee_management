@@ -5,7 +5,7 @@ from django.db.models import Sum
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from base.models import DatedModel, StatusModel
+from base.models import DatedModel, StatusModel, ActiveObjectManager
 from employee.utils import MAX_WEEKLY_WORKING_HOURS, WEEKS_IN_A_MONTH, EMPLOYEE_CODE_CONST, TEAM_CODE_CONST
 
 
@@ -13,6 +13,9 @@ from employee.utils import MAX_WEEKLY_WORKING_HOURS, WEEKS_IN_A_MONTH, EMPLOYEE_
 class Team(DatedModel, StatusModel):
     name = models.CharField(max_length=50, unique=True, blank=False, null=False)
     code = models.CharField(max_length=10, unique=True, blank=True, null=True)
+
+    objects = models.Manager()
+    active_objects = ActiveObjectManager()
 
     def __str__(self):
         return f'{self.name} ({self.code})'
@@ -34,6 +37,9 @@ class Employee(DatedModel, StatusModel):
     employee_id = models.CharField(max_length=100, unique=True, blank=True, null=True)
     team = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL)
     hourly_rate = models.DecimalField(blank=False, null=False, max_digits=30, decimal_places=2)
+
+    objects = models.Manager()
+    active_objects = ActiveObjectManager()
 
     def get_total_employee_work_percentage(self):
         """
@@ -87,6 +93,9 @@ def generate_employee_id(sender, instance, created, **kwargs):
 class TeamLeader(DatedModel, StatusModel):
     team = models.OneToOneField(Team, on_delete=models.CASCADE)
     employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+
+    objects = models.Manager()
+    active_objects = ActiveObjectManager()
 
     def __str__(self):
         return f'{self.team.name} - {self.employee.employee_name}'

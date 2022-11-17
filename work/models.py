@@ -2,7 +2,7 @@ from django.core.validators import MaxValueValidator, ValidationError
 from django.db import models
 from django.db.models import Sum
 
-from base.models import DatedModel, StatusModel
+from base.models import DatedModel, StatusModel, ActiveObjectManager
 from employee.models import Employee
 
 
@@ -16,6 +16,9 @@ class WorkArrangement(DatedModel, StatusModel):
     )
     work = models.CharField(max_length=25, blank=False)
     work_type = models.CharField(max_length=25, blank=False, null=False, choices=WORK_TYPE, default=FULL_TIME)
+
+    objects = models.Manager()
+    active_objects = ActiveObjectManager()
 
     class Meta:
         unique_together = ('work', 'work_type',)
@@ -35,6 +38,9 @@ class EmployeeWorkArrangement(DatedModel, StatusModel):
     employee = models.ForeignKey(Employee, null=False, on_delete=models.CASCADE)
     work_arrangement = models.ForeignKey(WorkArrangement, null=False, on_delete=models.CASCADE)
     percentage = models.DecimalField(null=False, max_digits=10, decimal_places=2, validators=[MaxValueValidator(100)])
+
+    objects = models.Manager()
+    active_objects = ActiveObjectManager()
 
     def get_total_employee_work_percentage(self):
         """

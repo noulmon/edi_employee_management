@@ -8,7 +8,7 @@ from employee.serializers import EmployeeSerializer, EmployeeReadSerializer, Tea
 
 
 class EmployeeListCreateView(generics.ListCreateAPIView):
-    queryset = Employee.objects.all()
+    queryset = Employee.active_objects.all()
 
     def get_serializer_class(self):
         serializer = EmployeeSerializer
@@ -18,7 +18,7 @@ class EmployeeListCreateView(generics.ListCreateAPIView):
 
 
 class EmployeeRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Employee.objects.all()
+    queryset = Employee.active_objects.all()
 
     def get_serializer_class(self):
         serializer = EmployeeSerializer
@@ -28,28 +28,28 @@ class EmployeeRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class TeamListCreateView(generics.ListCreateAPIView):
-    queryset = Team.objects.all()
+    queryset = Team.active_objects.all()
     serializer_class = TeamSerializer
 
 
 class TeamRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Team.objects.all()
+    queryset = Team.active_objects.all()
     serializer_class = TeamSerializer
 
 
 class TeamLeaderListCreateView(generics.ListCreateAPIView):
-    queryset = TeamLeader.objects.all()
+    queryset = TeamLeader.active_objects.all()
     serializer_class = TeamLeaderSerializer
 
 
 class TeamLeaderRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = TeamLeader.objects.all()
+    queryset = TeamLeader.active_objects.all()
     serializer_class = TeamLeaderSerializer
 
 
 class EmployeeMonthlyPaymentList(APIView):
     def get(self, request):
         """Returns all the employee list with total amount payable at the end of a month"""
-        employees = Employee.objects.all()
+        employees = Employee.active_objects.all()
         serializer = EmployeeMonthlyPaymentSerializer(employees, many=True)
         return Response(serializer.data)
