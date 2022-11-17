@@ -17,6 +17,13 @@ def validate_total_work_percentage(employee, percentage):
     return True
 
 
+def validate_work_type_with_work_percentage(work_type, percentage):
+    if work_type == 'FT':
+        if percentage != 100:
+            return True
+    return False
+
+
 class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmployeeWorkArrangement
@@ -27,7 +34,7 @@ class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
         employee = validated_data['employee']
         percentage = validated_data['percentage']
         work_arrangement = validated_data['work_arrangement']
-        if not (work_arrangement.work_type == 'FT' and percentage is 100):
+        if validate_work_type_with_work_percentage(work_type=work_arrangement.work_type, percentage=percentage):
             raise serializers.ValidationError(
                 'Error: A full time work arrangement should always have 100% work percentage.')
         if not validate_total_work_percentage(employee, percentage):
@@ -47,7 +54,8 @@ class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
         work_arrangement = validated_data.get('work_arrangement')
         if not work_arrangement:
             work_arrangement = instance.work_arrangement
-        if not (work_arrangement.work_type == 'FT' and percentage is 100):
+
+        if validate_work_type_with_work_percentage(work_type=work_arrangement.work_type, percentage=percentage):
             raise serializers.ValidationError(
                 'Error: A full time work arrangement should always have 100% work percentage.')
         if percentage:
