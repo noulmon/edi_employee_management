@@ -26,6 +26,10 @@ class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
         """creates an EmployeeWorkArrangement object"""
         employee = validated_data['employee']
         percentage = validated_data['percentage']
+        work_arrangement = validated_data['work_arrangement']
+        if not (work_arrangement.work_type == 'FT' and percentage is 100):
+            raise serializers.ValidationError(
+                'Error: A full time work arrangement should always have 100% work percentage.')
         if not validate_total_work_percentage(employee, percentage):
             # validates if the total employee work percentage is less than 100
             raise serializers.ValidationError('Error: No employee can have total work percentage greater than 100')
@@ -39,6 +43,13 @@ class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
         payload_employee = validated_data.get('employee')
         if payload_employee:
             employee = payload_employee
+        # if
+        work_arrangement = validated_data.get('work_arrangement')
+        if not work_arrangement:
+            work_arrangement = instance.work_arrangement
+        if not (work_arrangement.work_type == 'FT' and percentage is 100):
+            raise serializers.ValidationError(
+                'Error: A full time work arrangement should always have 100% work percentage.')
         if percentage:
             # validates if the total employee work percentage is less than 100
             if not validate_total_work_percentage(employee, percentage):
