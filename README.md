@@ -92,11 +92,11 @@ signals. `EDI-EMP-ID`(eg: EDI-EMP-21) and `EDI-TM-ID`(eg: EDI-EMP-13) for Employ
 1. Clone the project from git repository.
 2. Create a python environment and activate it.
 3. Got project directory. 
-4. Install the required packages: `pip install requirements.txt`.
-5. Run the project: `python manage.py runserver`.
+4. Install the required packages: `pip3 install -r requirements.txt`.
+5. Run the project: `python3 manage.py runserver`.
 
 ## To Run Unit Tests:
-`python manage.py test`: run the unit tests in the command line.
+`python3 manage.py test`: run the unit tests in the command line.
 
 ## To Generate the Test Coverage Report:
 1. Run Coverage: `coverage run manage.py test`.
