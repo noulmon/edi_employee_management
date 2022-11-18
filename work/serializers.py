@@ -18,6 +18,7 @@ def validate_total_work_percentage(employee, percentage):
 
 
 def validate_work_type_with_work_percentage(work_type, percentage):
+    """returns false if the full time work type doesn't have 100% percentage, else return true"""
     if work_type == 'FT':
         if percentage != 100:
             return True
@@ -46,11 +47,13 @@ class EmployeeWorkArrangementSerializer(serializers.ModelSerializer):
         """updates an existing EmployeeWorkArrangement instance"""
         percentage = validated_data.get('percentage')
         employee = instance.employee
-        # if the update data includes the employee
+
+        # if the update data contains the employee
         payload_employee = validated_data.get('employee')
         if payload_employee:
             employee = payload_employee
-        # if
+
+        # if the update data includes the work_arrangement
         work_arrangement = validated_data.get('work_arrangement')
         if not work_arrangement:
             work_arrangement = instance.work_arrangement
